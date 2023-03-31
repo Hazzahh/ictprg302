@@ -1,11 +1,19 @@
 #1/usr/bin/python3
 
 import sys
-from backupcfg import jobs 
+import os 
+from backupcfg import jobs, destDir
+from datetime import datetime
+import pathlib
+import shutil
 
 def errorProcessing(errorMessage):
     print("ERROR: " + errorMessage)
-    
+    dateTimeStamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    file = open("backups/logs.txt", "a")
+    file.write("FAILURE "+ dateTimeStamp +" " +errorMessage + "\n")
+    file.close()
+    #open file and close file with message saying it failed
 def main():
     """
     This Python code demonstrates on how it backup a file or directory to the command line.
@@ -20,10 +28,34 @@ def main():
             jobname = sys.argv[1]
             
             if not jobname in jobs:
-                errorProcessing("Job not found in dictionary")
+                errorProcessing("Job Not Found In Dictionary")
             else:
-                print(jobs)
+                
+                source = jobs[jobname]
+            
+                if not os.path.exists(source):
+                    errorProcessing("Source does not exist")
+                else: 
+                    
+                    destPath = pathlib.PurePath(source)
+                    dateTimeStamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+                    dest = destDir + "/" + destPath.name + "-" + dateTimeStamp 
+                    
+                    if pathlib.Path(source).is_dir():  
+                        shutil.copytree(source, dest)
+                        
+                    else:
+                        shutil.copy2(source, dest)
+                    
+                    
+                    dateTimeStamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+                    file = open("backups/logs.txt", "a")
+                    file.write("SUCCESS "+ dateTimeStamp +" " +"Successfully backed up file" + "\n")                   
+                    file.close()
+                    #open file and close file with message saying it succced
+                    pass
     except:
+        
         print("ERROR: Programmed failed")
     
 if __name__ == "__main__":
