@@ -19,8 +19,9 @@ import smtplib
 
 def errorProcessing(errorMessage):
     """
-    This python code demonstrats that if there is an issue within the code it
-    will send a error message. 
+    If there is an issue within the program this function 
+    will send a error message to the screen, with date and time while also sending
+    an email and writing to the log file. 
     """
     print("ERROR: " + errorMessage)
     dateTimeStamp = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -32,8 +33,8 @@ def errorProcessing(errorMessage):
     
 def sendEmail(message):
     """
-    This python code demonstrats on how it uses a smtp server in which it sends a alert
-    to your google email account that a error occurred. 
+    This python code uses a smtp server in which it sends a alert
+    to a google email account when a error occurred. 
     """
 
     email = 'To: ' + smtp["recipient"] + '\n' + 'From: ' + smtp["sender"] + '\n' + 'Subject: Backup Error\n\n' + message + '\n'
@@ -52,27 +53,31 @@ def sendEmail(message):
         
 def main():
     """
-    This Python code demonstrates on how it backup a file or directory to the command line.
+    This Python code backups a file or directory from the command line.
     While specifiying the jobs context in the backupcfg.py file.
     While displaying errors on the screen, sending emails to the adminstrator, sending emails on errors and
     written the process of success and failures in log file backup.log
     """
     try:
+        #Checks if job specifying in the command line
         if len(sys.argv) != 2:
             errorProcessing("Job name missing")
         else:
             jobname = sys.argv[1]
             
+            #Checks if jobname is defined in the dictionary 
             if not jobname in jobs:
                 errorProcessing("Job "+jobname+" Not Found In Dictionary ")
             else:
                 
+                #Check if source file exist
                 source = jobs[jobname]
             
                 if not os.path.exists(source):
                     errorProcessing("Source does not exist ")
                 else: 
                     
+                    #Check if destination exist
                     destPath = pathlib.PurePath(source)
                     dateTimeStamp = datetime.now().strftime("%Y%m%d-%H%M%S")
                     dest = destDir + "/" + destPath.name + "-" + dateTimeStamp 
@@ -80,19 +85,20 @@ def main():
                         errorProcessing("Destination does not exist ")
                     else: 
                         
+                        #This copy directory
                         if pathlib.Path(source).is_dir():  
                             shutil.copytree(source, dest)
-                            
+                        
+                        #This copy file    
                         else:
                             shutil.copy2(source, dest)
                         
-                        
+                        #This sends a success message in the logs 
                         dateTimeStamp = datetime.now().strftime("%Y%m%d-%H%M%S")
                         file = open("backups/logs.txt", "a")
                         file.write("SUCCESS "+ dateTimeStamp +" " +"Successfully backed up " + source + "\n")                   
                         file.close()
-                        #open file and close file with message saying it succced
-                        pass
+                        
     except:
         
         print("ERROR: Programmed failed")
