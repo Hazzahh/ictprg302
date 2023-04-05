@@ -1,6 +1,16 @@
 
-FAIL 
-SUCCESS 
-FAIL Job Not Found In Dictionary
-FAILURE 20230331-040609 Job Not Found In Dictionary
-SUCCESS 20230331-041138 Successfully backed up file
+SUCCESS 20230405-023430 Successfully backed up /home/ec2-user/environment/ictprg302/work/file1.txt
+SUCCESS 20230405-023505 Successfully backed up /home/ec2-user/environment/ictprg302/work/file1.txt
+SUCCESS 20230405-024013 Successfully backed up /home/ec2-user/environment/ictprg302/work/dir1
+FAILURE 20230405-024036 Job name missing
+FAILURE 20230405-024058 Job job44 Not Found In Dictionary
+FAILURE 20230405-024200 Source does not exist
+FAILURE 20230405-024836 Destination does not exist
+FAILURE 20230405-024859 Destination does not exist
+FAILURE 20230405-025042 Destination does not exist
+FAILURE 20230405-025118 Destination does not exist
+SUCCESS 20230405-025428 Successfully backed up /home/ec2-user/environment/ictprg302/work/file1.txt
+FAILURE 20230405-030014 Job name missing
+FAILURE 20230405-030029 Source does not exist
+FAILURE 20230405-030403 Source does not exist
+FAILURE 20230405-030442 Source does not exist 
